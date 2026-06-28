@@ -6,29 +6,65 @@ import { CustomerDto } from './customer.dto';
 import { InvoiceItemDto } from './invoice-item.dto';
 
 export class InvoiceDto {
-  @ApiProperty({ format: 'uuid' }) invoiceId: string;
-  @ApiProperty() invoiceNumber: string;
-  @ApiProperty({ nullable: true }) invoiceReference: string | null;
-  @ApiProperty() invoiceDate: string;
-  @ApiProperty() dueDate: string;
-  @ApiProperty() currency: string;
-  @ApiProperty() currencySymbol: string;
-  @ApiProperty({ nullable: true }) description: string | null;
+  @ApiProperty({ format: 'uuid' })
+  invoiceId: string;
+
+  @ApiProperty()
+  invoiceNumber: string;
+
+  @ApiProperty({ nullable: true })
+  invoiceReference: string | null;
+
+  @ApiProperty()
+  invoiceDate: string;
+
+  @ApiProperty()
+  dueDate: string;
+
+  @ApiProperty()
+  currency: string;
+
+  @ApiProperty()
+  currencySymbol: string;
+
+  @ApiProperty({ nullable: true })
+  description: string | null;
+
   @ApiProperty({
     enum: InvoiceStatusView,
     description: 'Derived status — Overdue is computed at read time',
   })
   status: InvoiceStatusView;
-  @ApiProperty({ type: CustomerDto }) customer: CustomerDto;
-  @ApiProperty() invoiceSubTotal: number;
-  @ApiProperty() totalTax: number;
-  @ApiProperty() totalDiscount: number;
-  @ApiProperty() totalAmount: number;
-  @ApiProperty() totalPaid: number;
-  @ApiProperty() balanceAmount: number;
-  @ApiProperty({ type: [InvoiceItemDto] }) items: InvoiceItemDto[];
-  @ApiProperty({ format: 'uuid' }) createdBy: string;
-  @ApiProperty() createdAt: Date;
+
+  @ApiProperty({ type: CustomerDto })
+  customer: CustomerDto;
+
+  @ApiProperty()
+  invoiceSubTotal: number;
+
+  @ApiProperty()
+  totalTax: number;
+
+  @ApiProperty()
+  totalDiscount: number;
+
+  @ApiProperty()
+  totalAmount: number;
+
+  @ApiProperty()
+  totalPaid: number;
+
+  @ApiProperty()
+  balanceAmount: number;
+
+  @ApiProperty({ type: [InvoiceItemDto] })
+  items: InvoiceItemDto[];
+
+  @ApiProperty({ format: 'uuid' })
+  createdBy: string;
+
+  @ApiProperty()
+  createdAt: Date;
 
   /**
    * Maps an Invoice entity to the API response shape, applying the derived

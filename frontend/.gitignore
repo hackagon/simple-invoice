@@ -1,0 +1,10 @@
+node_modules
+dist
+*.tsbuildinfo
+coverage
+.env
+*.log
+.DS_Store
+
+# local-only: pin public registry for installs
+.npmrc

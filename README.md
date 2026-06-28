@@ -54,6 +54,7 @@ simple-invoice/                 (repository root)
 │       │   ├── data-source.ts  # DataSource for the migration CLI
 │       │   └── seed/           # Seed script + mock data generator
 │       └── config/             # Typed env configuration
+├── scripts/                    # Dev convenience scripts (start-dev, migrations, …)
 ├── docker-compose.yml          # db + backend + frontend, one command
 ├── .env.example                # Root compose configuration
 └── README.md

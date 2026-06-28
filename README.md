@@ -15,14 +15,15 @@ all monetary totals calculated on the server.
 
 1. [Architecture](#architecture)
 2. [Quick start (Docker)](#quick-start-docker)
-3. [Running locally without Docker](#running-locally-without-docker)
-4. [Default login](#default-login)
-5. [Database seeding](#database-seeding)
-6. [API & Swagger](#api--swagger)
-7. [Testing](#testing)
-8. [Environment configuration](#environment-configuration)
-9. [Assumptions & design decisions](#assumptions--design-decisions)
-10. [Known limitations](#known-limitations)
+3. [Convenience scripts](#convenience-scripts)
+4. [Running locally without Docker](#running-locally-without-docker)
+5. [Default login](#default-login)
+6. [Database seeding](#database-seeding)
+7. [API & Swagger](#api--swagger)
+8. [Testing](#testing)
+9. [Environment configuration](#environment-configuration)
+10. [Assumptions & design decisions](#assumptions--design-decisions)
+11. [Known limitations](#known-limitations)
 
 ---
 
@@ -57,7 +58,6 @@ simple-invoice/                 (repository root)
 ├── scripts/                    # Dev convenience scripts (start-dev, migrations, …)
 ├── docs/                       # Architecture, API, and data-model docs
 ├── docker-compose.yml          # db + backend + frontend, one command
-├── .env.example                # Root compose configuration
 └── README.md
 ```
 
@@ -97,6 +97,9 @@ boot**:
 
 Open **http://localhost:8080** and sign in with the [default login](#default-login).
 
+> Prefer shortcuts? `./scripts/start.sh` does the same thing — see
+> [Convenience scripts](#convenience-scripts).
+
 To stop and remove everything (including the database volume):
 
 ```bash
@@ -120,6 +123,33 @@ This runs the backend with NestJS watch mode and the frontend with the Vite dev
 server (HMR), with the source bind-mounted. The frontend is served at
 **http://localhost:5173** (not 8080) and uses `DB_SYNCHRONIZE=true` so no
 migration step is needed. The default `docker compose up` is unaffected.
+
+---
+
+## Convenience scripts
+
+The [`scripts/`](scripts/) folder wraps the common Docker and database commands so
+you don't have to remember the long forms. Run them from the repository root:
+
+```bash
+./scripts/start.sh           # production stack            → http://localhost:8080
+./scripts/start-dev.sh       # hot-reload dev stack        → http://localhost:5173
+./scripts/stop.sh            # stop (keeps the DB volume)
+./scripts/reset-db.sh        # stop and wipe the DB volume
+./scripts/logs.sh [service]  # follow logs (db | backend | frontend)
+
+./scripts/seed.sh            # reseed the database
+./scripts/migration-up.sh    # apply pending migrations
+./scripts/migration-down.sh  # revert the last migration
+./scripts/migration-show.sh  # list applied / pending migrations
+./scripts/test.sh            # run backend + frontend unit tests
+```
+
+Each script is a thin wrapper — e.g. `./scripts/start-dev.sh` runs
+`docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build`. The
+database scripts target the Dockerized Postgres (host port `5433`) by default and
+expect the DB to be running. See [`scripts/README.md`](scripts/README.md) for the
+full reference and overrides.
 
 ---
 
@@ -299,10 +329,12 @@ pnpm test          # Vitest + Testing Library
 ## Environment configuration
 
 All configuration is sourced from environment variables; **no secrets are
-hardcoded**. Each app ships an `.env.example`:
+hardcoded**.
 
-- **Root `.env.example`** — consumed by `docker-compose.yml` (DB credentials,
-  published ports, JWT secret/expiry, seed user, CORS, frontend API URL).
+- **Docker** — `docker-compose.yml` defines every variable with a sensible
+  inline default (`${VAR:-default}`), so `docker compose up` works out of the
+  box. To override (DB credentials, published ports, JWT secret/expiry, seed
+  user, CORS, frontend API URL), create a root `.env` with the keys you want.
 - **`backend/.env.example`** — for running the backend standalone.
 - **`frontend/.env.example`** — `VITE_API_BASE_URL` for the SPA.
 

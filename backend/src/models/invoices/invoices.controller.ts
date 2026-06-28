@@ -20,12 +20,12 @@ import {
   AuthUser,
   CurrentUser,
 } from '../../common/decorators/current-user.decorator';
-import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import {
+  CreateInvoiceDto,
   InvoiceDto,
   PaginatedInvoicesDto,
-} from './dto/invoice-response.dto';
-import { QueryInvoicesDto } from './dto/query-invoices.dto';
+  QueryInvoicesDto,
+} from './dto';
 import { InvoicesService } from './invoices.service';
 
 @ApiTags('invoices')

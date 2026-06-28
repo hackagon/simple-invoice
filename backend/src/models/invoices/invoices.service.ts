@@ -6,13 +6,14 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, Repository } from 'typeorm';
 import { currencySymbolFor } from './currency.util';
-import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import {
+  CreateInvoiceDto,
+  InvoiceDto,
   InvoiceSortField,
+  PaginatedInvoicesDto,
   QueryInvoicesDto,
   SortOrdering,
-} from './dto/query-invoices.dto';
-import { InvoiceDto, PaginatedInvoicesDto } from './dto/invoice-response.dto';
+} from './dto';
 import { Invoice } from '../../database/entities/invoice.entity';
 import { InvoiceItem } from '../../database/entities/invoice-item.entity';
 import { InvoiceStatus, InvoiceStatusView } from './enums/invoice-status.enum';

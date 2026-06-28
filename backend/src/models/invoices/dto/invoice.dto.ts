@@ -1,40 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Invoice } from '../../../database/entities/invoice.entity';
-import { InvoiceItem } from '../../../database/entities/invoice-item.entity';
 import { InvoiceStatusView } from '../enums/invoice-status.enum';
 import { deriveStatus } from '../invoice.calculations';
-
-export class CustomerDto {
-  @ApiProperty() fullname: string;
-  @ApiProperty({ nullable: true }) email: string;
-  @ApiProperty({ nullable: true }) mobileNumber: string | null;
-  @ApiProperty({ nullable: true }) address: string | null;
-
-  static fromEntity(invoice: Invoice): CustomerDto {
-    const dto = new CustomerDto();
-    dto.fullname = invoice.customerFullname;
-    dto.email = invoice.customerEmail;
-    dto.mobileNumber = invoice.customerMobile;
-    dto.address = invoice.customerAddress;
-    return dto;
-  }
-}
-
-export class InvoiceItemDto {
-  @ApiProperty({ format: 'uuid' }) id: string;
-  @ApiProperty() name: string;
-  @ApiProperty() quantity: number;
-  @ApiProperty() rate: number;
-
-  static fromEntity(item: InvoiceItem): InvoiceItemDto {
-    const dto = new InvoiceItemDto();
-    dto.id = item.id;
-    dto.name = item.name;
-    dto.quantity = item.quantity;
-    dto.rate = item.rate;
-    return dto;
-  }
-}
+import { CustomerDto } from './customer.dto';
+import { InvoiceItemDto } from './invoice-item.dto';
 
 export class InvoiceDto {
   @ApiProperty({ format: 'uuid' }) invoiceId: string;
@@ -91,15 +60,4 @@ export class InvoiceDto {
     dto.createdAt = invoice.createdAt;
     return dto;
   }
-}
-
-export class PagingDto {
-  @ApiProperty({ example: 1 }) page: number;
-  @ApiProperty({ example: 10 }) pageSize: number;
-  @ApiProperty({ example: 100 }) total: number;
-}
-
-export class PaginatedInvoicesDto {
-  @ApiProperty({ type: [InvoiceDto] }) data: InvoiceDto[];
-  @ApiProperty({ type: PagingDto }) paging: PagingDto;
 }

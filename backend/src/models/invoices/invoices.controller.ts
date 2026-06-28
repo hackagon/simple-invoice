@@ -15,11 +15,11 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import {
   AuthUser,
   CurrentUser,
-} from '../common/decorators/current-user.decorator';
+} from '../../common/decorators/current-user.decorator';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import {
   InvoiceDto,

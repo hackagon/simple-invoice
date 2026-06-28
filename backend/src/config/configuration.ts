@@ -13,6 +13,7 @@ export interface AppConfig {
     password: string;
     name: string;
     synchronize: boolean;
+    runMigrations: boolean;
   };
   jwt: {
     secret: string;
@@ -39,6 +40,7 @@ export default (): AppConfig => ({
     password: process.env.DB_PASSWORD ?? 'postgres',
     name: process.env.DB_NAME ?? 'simple_invoice',
     synchronize: parseBool(process.env.DB_SYNCHRONIZE, true),
+    runMigrations: parseBool(process.env.DB_RUN_MIGRATIONS, false),
   },
   jwt: {
     secret: process.env.JWT_SECRET ?? 'change-me-to-a-long-random-secret',

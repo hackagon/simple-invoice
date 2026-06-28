@@ -3,11 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import configuration from './config/configuration';
-import { Invoice } from './invoices/entities/invoice.entity';
-import { InvoiceItem } from './invoices/entities/invoice-item.entity';
-import { InvoicesModule } from './invoices/invoices.module';
-import { User } from './users/entities/user.entity';
-import { UsersModule } from './users/users.module';
+import { buildTypeOrmOptions } from './database/typeorm-options';
+import { InvoicesModule } from './models/invoices/invoices.module';
+import { UsersModule } from './models/users/users.module';
 
 @Module({
   imports: [
@@ -17,16 +15,14 @@ import { UsersModule } from './users/users.module';
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
+      // ConfigService is injected to guarantee env is loaded before the
+      // options (which read process.env) are built.
       useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        host: config.get<string>('database.host'),
-        port: config.get<number>('database.port'),
-        username: config.get<string>('database.username'),
-        password: config.get<string>('database.password'),
-        database: config.get<string>('database.name'),
-        entities: [User, Invoice, InvoiceItem],
-        synchronize: config.get<boolean>('database.synchronize'),
+        ...buildTypeOrmOptions(),
         autoLoadEntities: true,
+        synchronize: config.get<boolean>('database.synchronize'),
+        // Run pending migrations on boot when DB_RUN_MIGRATIONS=true.
+        migrationsRun: config.get<boolean>('database.runMigrations'),
       }),
     }),
     UsersModule,

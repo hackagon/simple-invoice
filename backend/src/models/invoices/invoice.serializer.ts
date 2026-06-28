@@ -1,6 +1,6 @@
 import { deriveStatus } from './invoice.calculations';
 import { InvoiceDto } from './dto/invoice-response.dto';
-import { Invoice } from './entities/invoice.entity';
+import { Invoice } from '../../database/entities/invoice.entity';
 
 /**
  * Maps an Invoice entity to the API response shape, applying the derived

@@ -6,7 +6,7 @@ import request from 'supertest';
 import { Repository } from 'typeorm';
 import { AppModule } from '../src/app.module';
 import { AllExceptionsFilter } from '../src/common/filters/all-exceptions.filter';
-import { User } from '../src/users/entities/user.entity';
+import { User } from '../src/database/entities/user.entity';
 
 /**
  * End-to-end test covering a complete key workflow:

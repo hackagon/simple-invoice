@@ -3,11 +3,11 @@ import * as bcrypt from 'bcrypt';
 import { config as loadEnv } from 'dotenv';
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import { Invoice } from '../../invoices/entities/invoice.entity';
-import { InvoiceItem } from '../../invoices/entities/invoice-item.entity';
-import { calculateInvoiceTotals, toDateOnly } from '../../invoices/invoice.calculations';
-import { currencySymbolFor } from '../../invoices/currency.util';
-import { User } from '../../users/entities/user.entity';
+import { Invoice } from '../entities/invoice.entity';
+import { InvoiceItem } from '../entities/invoice-item.entity';
+import { calculateInvoiceTotals, toDateOnly } from '../../models/invoices/invoice.calculations';
+import { currencySymbolFor } from '../../models/invoices/currency.util';
+import { User } from '../entities/user.entity';
 import { buildTypeOrmOptions } from '../typeorm-options';
 import { buildSeedInvoices } from './seed-data';
 
@@ -16,13 +16,20 @@ loadEnv();
 const SEED_COUNT = 32; // within the recommended 20-50 range
 
 async function seed(): Promise<void> {
-  const dataSource = new DataSource({
-    ...buildTypeOrmOptions(),
-    synchronize: true, // ensure schema exists before seeding
-  });
+  const options = buildTypeOrmOptions();
+  const dataSource = new DataSource(options);
 
   await dataSource.initialize();
   console.log('Connected. Seeding database...');
+
+  // Ensure the schema exists before seeding. With synchronize on (dev default)
+  // the schema is created on initialize; otherwise apply pending migrations.
+  if (!options.synchronize) {
+    const applied = await dataSource.runMigrations();
+    if (applied.length) {
+      console.log(`Applied ${applied.length} migration(s) before seeding.`);
+    }
+  }
 
   const userRepo = dataSource.getRepository(User);
   const invoiceRepo = dataSource.getRepository(Invoice);

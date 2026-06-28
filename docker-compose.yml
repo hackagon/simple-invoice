@@ -32,7 +32,9 @@ services:
       DB_USERNAME: ${DB_USERNAME:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
       DB_NAME: ${DB_NAME:-simple_invoice}
-      DB_SYNCHRONIZE: ${DB_SYNCHRONIZE:-true}
+      # Production-style schema management: migrations instead of synchronize.
+      DB_SYNCHRONIZE: ${DB_SYNCHRONIZE:-false}
+      DB_RUN_MIGRATIONS: ${DB_RUN_MIGRATIONS:-true}
       JWT_SECRET: ${JWT_SECRET:-change-me-to-a-long-random-secret}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-3600}
       SEED_USER_EMAIL: ${SEED_USER_EMAIL:-admin@101digital.io}

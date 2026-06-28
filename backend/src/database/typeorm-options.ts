@@ -1,12 +1,21 @@
+import { join } from 'path';
 import { DataSourceOptions } from 'typeorm';
-import { Invoice } from '../invoices/entities/invoice.entity';
-import { InvoiceItem } from '../invoices/entities/invoice-item.entity';
-import { User } from '../users/entities/user.entity';
+import { Invoice } from './entities/invoice.entity';
+import { InvoiceItem } from './entities/invoice-item.entity';
+import { User } from './entities/user.entity';
+
+const parseBool = (value: string | undefined, fallback: boolean): boolean => {
+  if (value === undefined) return fallback;
+  return ['1', 'true', 'yes', 'on'].includes(value.toLowerCase());
+};
 
 /**
  * Builds TypeORM connection options from environment variables.
- * Shared by the Nest TypeOrmModule and the standalone seed script so both
- * always connect to the same database with the same entity set.
+ * Shared by the Nest TypeOrmModule, the standalone seed script and the
+ * migration DataSource (CLI) so all three connect identically.
+ *
+ * The migrations glob uses __dirname so it resolves under both ts-node
+ * (src/database/migrations/*.ts) and the compiled build (dist/.../*.js).
  */
 export const buildTypeOrmOptions = (): DataSourceOptions => ({
   type: 'postgres',
@@ -16,8 +25,8 @@ export const buildTypeOrmOptions = (): DataSourceOptions => ({
   password: process.env.DB_PASSWORD ?? 'postgres',
   database: process.env.DB_NAME ?? 'simple_invoice',
   entities: [User, Invoice, InvoiceItem],
-  synchronize: ['1', 'true', 'yes', 'on'].includes(
-    (process.env.DB_SYNCHRONIZE ?? 'true').toLowerCase(),
-  ),
+  migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
+  migrationsTableName: 'migrations_history',
+  synchronize: parseBool(process.env.DB_SYNCHRONIZE, true),
   logging: false,
 });

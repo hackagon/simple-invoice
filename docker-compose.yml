@@ -20,6 +20,7 @@ services:
   backend:
     build:
       context: ./backend
+      target: runtime
     container_name: simple-invoice-backend
     depends_on:
       db:
@@ -49,6 +50,7 @@ services:
   frontend:
     build:
       context: ./frontend
+      target: runtime
       args:
         # Browser runs on the host, so it reaches the backend via the host port.
         VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:3000}

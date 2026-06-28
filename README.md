@@ -103,6 +103,19 @@ docker compose down -v
 > invoices survive a restart. To force a fresh dataset, run `docker compose down -v`
 > first, or reseed manually (see [Database seeding](#database-seeding)).
 
+### Docker with hot reload (development)
+
+For a containerized dev loop where code changes auto-reload, add the dev override:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
+This runs the backend with NestJS watch mode and the frontend with the Vite dev
+server (HMR), with the source bind-mounted. The frontend is served at
+**http://localhost:5173** (not 8080) and uses `DB_SYNCHRONIZE=true` so no
+migration step is needed. The default `docker compose up` is unaffected.
+
 ---
 
 ## Running locally without Docker

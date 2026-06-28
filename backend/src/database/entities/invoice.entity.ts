@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { DecimalTransformer } from '../../common/transformers/decimal.transformer';
-import { InvoiceStatus } from '../../models/invoices/enums/invoice-status.enum';
+import { InvoiceStatus } from '../../models/invoices/interfaces';
 import { InvoiceItem } from './invoice-item.entity';
 
 /**

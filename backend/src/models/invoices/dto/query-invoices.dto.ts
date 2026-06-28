@@ -9,18 +9,11 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { InvoiceStatusView } from '../enums/invoice-status.enum';
-
-export enum InvoiceSortField {
-  invoiceDate = 'invoiceDate',
-  dueDate = 'dueDate',
-  totalAmount = 'totalAmount',
-}
-
-export enum SortOrdering {
-  ASC = 'ASC',
-  DESC = 'DESC',
-}
+import {
+  InvoiceSortField,
+  InvoiceStatusView,
+  SortOrdering,
+} from '../interfaces';
 
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 

@@ -9,14 +9,17 @@ import { currencySymbolFor } from './currency.util';
 import {
   CreateInvoiceDto,
   InvoiceDto,
-  InvoiceSortField,
   PaginatedInvoicesDto,
   QueryInvoicesDto,
-  SortOrdering,
 } from './dto';
 import { Invoice } from '../../database/entities/invoice.entity';
 import { InvoiceItem } from '../../database/entities/invoice-item.entity';
-import { InvoiceStatus, InvoiceStatusView } from './enums/invoice-status.enum';
+import {
+  InvoiceSortField,
+  InvoiceStatus,
+  InvoiceStatusView,
+  SortOrdering,
+} from './interfaces';
 import {
   calculateInvoiceTotals,
   toDateOnly,

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Invoice } from '../../../database/entities/invoice.entity';
-import { InvoiceStatusView } from '../enums/invoice-status.enum';
+import { InvoiceStatusView } from '../interfaces';
 import { deriveStatus } from '../invoice.calculations';
 import { CustomerDto } from './customer.dto';
 import { InvoiceItemDto } from './invoice-item.dto';

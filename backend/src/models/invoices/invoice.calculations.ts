@@ -1,21 +1,9 @@
-import { InvoiceStatus, InvoiceStatusView } from './enums/invoice-status.enum';
-
-export interface InvoiceTotalsInput {
-  quantity: number;
-  rate: number;
-  taxPercent: number;
-  discount: number;
-  totalPaid?: number;
-}
-
-export interface InvoiceTotals {
-  invoiceSubTotal: number;
-  totalTax: number;
-  totalDiscount: number;
-  totalAmount: number;
-  totalPaid: number;
-  balanceAmount: number;
-}
+import {
+  InvoiceStatus,
+  InvoiceStatusView,
+  InvoiceTotals,
+  InvoiceTotalsInput,
+} from './interfaces';
 
 /** Round to 2 decimal places, avoiding floating point artefacts. */
 const round2 = (value: number): number =>

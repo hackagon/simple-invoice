@@ -1,4 +1,4 @@
-import { InvoiceStatus, InvoiceStatusView } from './enums/invoice-status.enum';
+import { InvoiceStatus, InvoiceStatusView } from './interfaces';
 import {
   calculateInvoiceTotals,
   deriveStatus,

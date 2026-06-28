@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import { Invoice } from '../../database/entities/invoice.entity';
-import { InvoiceStatus } from './enums/invoice-status.enum';
+import { InvoiceStatus } from './interfaces';
 import { InvoicesService } from './invoices.service';
 
 describe('InvoicesService', () => {

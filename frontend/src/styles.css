@@ -569,6 +569,121 @@ a {
   }
 }
 
+/* ----- User menu (avatar + dropdown) ----- */
+.user-menu {
+  position: relative;
+}
+.avatar-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.avatar-btn:hover {
+  background: var(--color-primary-dark);
+}
+.avatar-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
+}
+.avatar-btn--lg {
+  width: 44px;
+  height: 44px;
+  font-size: 1rem;
+}
+.avatar-btn--xl {
+  width: 84px;
+  height: 84px;
+  font-size: 1.9rem;
+}
+.user-menu__dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 220px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 0.4rem;
+  z-index: 20;
+}
+.user-menu__header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem;
+}
+.user-menu__name {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.user-menu__email {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.user-menu__divider {
+  height: 1px;
+  background: var(--color-border);
+  margin: 0.2rem 0;
+}
+.user-menu__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.55rem 0.7rem;
+  border: none;
+  background: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--color-text);
+}
+.user-menu__item:hover {
+  background: #f1f5f9;
+}
+.user-menu__item--danger {
+  color: #b91c1c;
+}
+.user-menu__item--danger:hover {
+  background: #fef2f2;
+}
+
+/* ----- Profile page ----- */
+.profile-page {
+  max-width: 560px;
+}
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.profile-card__name {
+  margin: 0.8rem 0 0.2rem;
+}
+.profile-card__info {
+  width: 100%;
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
 /* ----- Responsive ----- */
 @media (max-width: 720px) {
   .app-nav__link {

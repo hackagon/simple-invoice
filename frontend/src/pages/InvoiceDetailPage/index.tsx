@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { StatusBadge } from '../components/StatusBadge';
-import { getErrorMessage } from '../lib/api';
-import { formatCurrency, formatDate } from '../lib/format';
-import { fetchInvoice } from '../lib/invoices.api';
+import { StatusBadge } from '../../components/StatusBadge';
+import { getErrorMessage } from '../../lib/api';
+import { formatCurrency, formatDate } from '../../lib/format';
+import { fetchInvoice } from '../../lib/invoices.api';
 
 export function InvoiceDetailPage() {
   const { id = '' } = useParams();

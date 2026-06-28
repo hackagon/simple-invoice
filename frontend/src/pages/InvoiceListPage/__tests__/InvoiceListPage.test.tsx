@@ -2,11 +2,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it, vi } from 'vitest';
-import type { PaginatedInvoices } from '../types/invoice';
-import { InvoiceListPage } from './InvoiceListPage';
+import type { PaginatedInvoices } from '../../../types/invoice';
+import { InvoiceListPage } from '..';
 
 const fetchInvoicesMock = vi.fn();
-vi.mock('../lib/invoices.api', () => ({
+vi.mock('../../../lib/invoices.api', () => ({
   fetchInvoices: (...args: unknown[]) => fetchInvoicesMock(...args),
 }));
 

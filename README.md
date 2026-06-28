@@ -36,10 +36,10 @@ simple-invoice/                 (repository root)
 ├── frontend/                   # React + TypeScript SPA (Vite)
 │   └── src/
 │       ├── auth/               # Auth context + protected routes
-│       ├── components/         # Layout, Toast, Pagination, StatusBadge
+│       ├── components/         # Shared components, one folder each (Layout/, Toast/, …)
 │       ├── hooks/              # useDebounce
 │       ├── lib/                # axios client, API calls, formatting
-│       ├── pages/              # Login, List, Detail, Create
+│       ├── pages/              # One folder per page (index.tsx + __tests__/)
 │       └── types/              # Shared TypeScript types
 ├── backend/                    # NestJS REST API
 │   └── src/

@@ -2,11 +2,11 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { LoginPage } from './LoginPage';
+import { LoginPage } from '..';
 
 // Mock the auth hook so we can assert on the login call.
 const loginMock = vi.fn();
-vi.mock('../auth/AuthContext', () => ({
+vi.mock('../../../auth/AuthContext', () => ({
   useAuth: () => ({ login: loginMock }),
 }));
 

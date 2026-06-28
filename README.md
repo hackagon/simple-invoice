@@ -57,7 +57,6 @@ simple-invoice/                 (repository root)
 ├── scripts/                    # Dev convenience scripts (start-dev, migrations, …)
 ├── docs/                       # Architecture, API, and data-model docs
 ├── docker-compose.yml          # db + backend + frontend, one command
-├── .env.example                # Root compose configuration
 └── README.md
 ```
 
@@ -299,10 +298,12 @@ pnpm test          # Vitest + Testing Library
 ## Environment configuration
 
 All configuration is sourced from environment variables; **no secrets are
-hardcoded**. Each app ships an `.env.example`:
+hardcoded**.
 
-- **Root `.env.example`** — consumed by `docker-compose.yml` (DB credentials,
-  published ports, JWT secret/expiry, seed user, CORS, frontend API URL).
+- **Docker** — `docker-compose.yml` defines every variable with a sensible
+  inline default (`${VAR:-default}`), so `docker compose up` works out of the
+  box. To override (DB credentials, published ports, JWT secret/expiry, seed
+  user, CORS, frontend API URL), create a root `.env` with the keys you want.
 - **`backend/.env.example`** — for running the backend standalone.
 - **`frontend/.env.example`** — `VITE_API_BASE_URL` for the SPA.
 

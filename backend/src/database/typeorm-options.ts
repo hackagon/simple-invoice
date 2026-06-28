@@ -9,14 +9,6 @@ const parseBool = (value: string | undefined, fallback: boolean): boolean => {
   return ['1', 'true', 'yes', 'on'].includes(value.toLowerCase());
 };
 
-/**
- * Builds TypeORM connection options from environment variables.
- * Shared by the Nest TypeOrmModule, the standalone seed script and the
- * migration DataSource (CLI) so all three connect identically.
- *
- * The migrations glob uses __dirname so it resolves under both ts-node
- * (src/database/migrations/*.ts) and the compiled build (dist/.../*.js).
- */
 export const buildTypeOrmOptions = (): DataSourceOptions => ({
   type: 'postgres',
   host: process.env.DB_HOST ?? 'localhost',

@@ -44,10 +44,15 @@ simple-invoice/                 (repository root)
 ├── backend/                    # NestJS REST API
 │   └── src/
 │       ├── auth/               # JWT login, strategy, guard
-│       ├── invoices/           # Controller, service, DTOs, business logic
-│       ├── users/              # User entity + lookup service
+│       ├── models/
+│       │   ├── invoices/       # Controller, service, DTOs, enums, business logic
+│       │   └── users/          # User lookup service
 │       ├── common/             # Exception filter, decorators, validators
-│       ├── database/seed/      # Seed script + mock data generator
+│       ├── database/
+│       │   ├── entities/       # TypeORM entities (User, Invoice, InvoiceItem)
+│       │   ├── migrations/     # TypeORM migrations (up / down)
+│       │   ├── data-source.ts  # DataSource for the migration CLI
+│       │   └── seed/           # Seed script + mock data generator
 │       └── config/             # Typed env configuration
 ├── docker-compose.yml          # db + backend + frontend, one command
 ├── .env.example                # Root compose configuration
@@ -165,6 +170,42 @@ docker compose exec backend pnpm run seed:prod
 ```
 
 Running `pnpm run seed` directly always resets and reseeds the invoice tables.
+When `DB_SYNCHRONIZE=false`, the seed script applies any pending migrations first
+so the schema exists before seeding.
+
+---
+
+## Database migrations
+
+The project supports two schema-management modes (selected via env):
+
+- **`DB_SYNCHRONIZE=true`** (local dev default) — TypeORM auto-syncs the schema
+  from entities on boot. No migrations needed; fastest for iteration.
+- **`DB_SYNCHRONIZE=false` + `DB_RUN_MIGRATIONS=true`** — migrations are the
+  source of truth. This is what **Docker Compose uses** (production-style), and
+  the API applies pending migrations on boot.
+
+Migrations live in [`backend/src/database/migrations/`](backend/src/database/migrations);
+the CLI loads [`backend/src/database/data-source.ts`](backend/src/database/data-source.ts).
+The initial migration (`InitialSchema`) creates the `users`, `invoices`, and
+`invoice_items` tables, the status enum, the unique invoice-number index, and the
+FK — with a matching `down()` that fully reverts it.
+
+From `backend/` (uses `ts-node`, no build needed):
+
+```bash
+pnpm migration:run              # apply pending migrations (up)
+pnpm migration:revert           # roll back the last migration (down)
+pnpm migration:show             # list applied / pending migrations
+pnpm migration:generate src/database/migrations/MyChange   # diff entities -> new migration
+pnpm migration:create   src/database/migrations/MyChange   # empty migration scaffold
+```
+
+Against a compiled build (e.g. inside the container): `pnpm migration:run:prod`
+and `pnpm migration:revert:prod` (these run the `.js` migrations from `dist/`).
+
+> Migrations are tracked in the `migrations_history` table. `migration:run` is
+> idempotent — already-applied migrations are skipped.
 
 ---
 
@@ -262,9 +303,9 @@ Key backend variables: `DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`,
 - **One line item per invoice** is implemented as required, but the data model
   uses a separate `invoice_items` table with a foreign key, so multiple items are
   supported by the schema for the future.
-- **`DB_SYNCHRONIZE=true`** is used so the schema is created automatically from
-  entities — appropriate for an assessment. A production system would use
-  versioned migrations instead.
+- **Schema management** supports both modes: `synchronize` for fast local dev
+  (default), and **versioned migrations** for a production-style flow (used by
+  Docker). See [Database migrations](#database-migrations).
 - **Token storage** uses `localStorage` for simplicity (the spec excludes
   advanced session policies). The trade-off is noted under limitations.
 - **Appendix A discrepancies:** the mock dataset shows `"status": "Overdue"`,
@@ -289,7 +330,6 @@ Key backend variables: `DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`,
   refresh rotation would be the production approach.
 - **Editing, deleting, and recording payments are out of scope.** `totalPaid`
   exists in the model and is seeded, but there is no UI/endpoint to update it.
-- **`synchronize`-based schema** (no migration history) as noted above.
 - **Single line item** per invoice in the UI/API, by assessment requirement.
 - **No rate limiting / advanced password policy**, per the assessment's explicit
   exclusions.

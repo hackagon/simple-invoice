@@ -13,8 +13,8 @@ import {
   SortOrdering,
 } from './dto/query-invoices.dto';
 import { InvoiceDto, PaginatedInvoicesDto } from './dto/invoice-response.dto';
-import { Invoice } from './entities/invoice.entity';
-import { InvoiceItem } from './entities/invoice-item.entity';
+import { Invoice } from '../../database/entities/invoice.entity';
+import { InvoiceItem } from '../../database/entities/invoice-item.entity';
 import { InvoiceStatus, InvoiceStatusView } from './enums/invoice-status.enum';
 import {
   calculateInvoiceTotals,

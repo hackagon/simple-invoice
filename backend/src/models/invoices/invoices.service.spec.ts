@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateInvoiceDto } from './dto/create-invoice.dto';
-import { Invoice } from './entities/invoice.entity';
+import { Invoice } from '../../database/entities/invoice.entity';
 import { InvoiceStatus } from './enums/invoice-status.enum';
 import { InvoicesService } from './invoices.service';
 

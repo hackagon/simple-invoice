@@ -12,7 +12,7 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
-import { IsOnOrAfter } from '../../common/validators/is-on-or-after.validator';
+import { IsOnOrAfter } from '../../../common/validators/is-on-or-after.validator';
 
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 

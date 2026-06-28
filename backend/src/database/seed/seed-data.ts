@@ -1,4 +1,4 @@
-import { InvoiceStatus } from '../../invoices/enums/invoice-status.enum';
+import { InvoiceStatus } from '../../models/invoices/enums/invoice-status.enum';
 
 export interface SeedInvoiceInput {
   invoiceNumber: string;

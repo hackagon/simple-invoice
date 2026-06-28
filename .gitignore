@@ -7,3 +7,6 @@ coverage
 
 # local-only npm registry pin (see README)
 .npmrc
+
+# Assessment brief (kept locally, not part of the submission repo)
+Assessment_Fullstack_v2.3.1.pdf

@@ -1,5 +1,6 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { Logo } from '../Logo';
+import { ThemeToggle } from '../ThemeToggle';
 import { UserMenu } from '../UserMenu';
 
 export function Layout() {
@@ -15,7 +16,10 @@ export function Layout() {
               Invoices
             </NavLink>
           </nav>
-          <UserMenu />
+          <div className="app-actions">
+            <ThemeToggle />
+            <UserMenu />
+          </div>
         </div>
       </header>
       <main className="app-main">

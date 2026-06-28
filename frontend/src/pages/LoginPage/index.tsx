@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
+import { Logo } from '../../components/Logo';
 import { getErrorMessage } from '../../lib/api';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,8 +49,7 @@ export function LoginPage() {
     <div className="auth-page">
       <form className="auth-card" onSubmit={handleSubmit} noValidate>
         <div className="auth-card__brand">
-          <span className="app-brand__mark">SI</span>
-          <h1>SimpleInvoice</h1>
+          <Logo size={52} />
           <p className="auth-card__subtitle">Sign in to continue</p>
         </div>
 

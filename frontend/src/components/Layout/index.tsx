@@ -1,4 +1,5 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Logo } from '../Logo';
 import { UserMenu } from '../UserMenu';
 
 export function Layout() {
@@ -7,8 +8,7 @@ export function Layout() {
       <header className="app-header">
         <div className="app-header__inner">
           <Link to="/" className="app-brand">
-            <span className="app-brand__mark">SI</span>
-            <span className="app-brand__name">SimpleInvoice</span>
+            <Logo />
           </Link>
           <nav className="app-nav">
             <NavLink to="/" end className="app-nav__link">

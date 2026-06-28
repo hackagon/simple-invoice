@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { PagingDto } from '../../../common/dtos';
 import { InvoiceDto } from './invoice.dto';
-import { PagingDto } from './paging.dto';
 
 export class PaginatedInvoicesDto {
   @ApiProperty({ type: [InvoiceDto] })

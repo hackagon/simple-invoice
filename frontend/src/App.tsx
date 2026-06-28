@@ -5,6 +5,7 @@ import { CreateInvoicePage } from './pages/CreateInvoicePage';
 import { InvoiceDetailPage } from './pages/InvoiceDetailPage';
 import { InvoiceListPage } from './pages/InvoiceListPage';
 import { LoginPage } from './pages/LoginPage';
+import { ProfilePage } from './pages/ProfilePage';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/" element={<InvoiceListPage />} />
           <Route path="/invoices/new" element={<CreateInvoicePage />} />
           <Route path="/invoices/:id" element={<InvoiceDetailPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Route>
 

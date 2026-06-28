@@ -55,10 +55,14 @@ simple-invoice/                 (repository root)
 │       │   └── seed/           # Seed script + mock data generator
 │       └── config/             # Typed env configuration
 ├── scripts/                    # Dev convenience scripts (start-dev, migrations, …)
+├── docs/                       # Architecture, API, and data-model docs
 ├── docker-compose.yml          # db + backend + frontend, one command
 ├── .env.example                # Root compose configuration
 └── README.md
 ```
+
+📚 Detailed technical docs live in [`docs/`](docs/README.md) — [architecture](docs/architecture.md),
+[API endpoints](docs/api-endpoints.md), and [data model](docs/data-model.md).
 
 **Request flow:** the React SPA stores the JWT in `localStorage` and attaches it
 as a `Bearer` token via an axios interceptor. Every `/invoices` route and

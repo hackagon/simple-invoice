@@ -21,3 +21,13 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
+
+# ----- Dev stage (Vite dev server with HMR) -----
+FROM node:22-alpine AS dev
+RUN corepack enable
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY . .
+EXPOSE 5173
+CMD ["pnpm", "dev", "--host"]

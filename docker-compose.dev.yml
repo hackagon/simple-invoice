@@ -1,0 +1,31 @@
+# Development override — hot reload for both services.
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+# The default `docker compose up` still uses the production build.
+services:
+  backend:
+    build:
+      target: dev
+    entrypoint: []
+    command: sh -c "SEED_SKIP_IF_POPULATED=true pnpm seed && pnpm start:dev"
+    environment:
+      NODE_ENV: development
+      DB_SYNCHRONIZE: 'true'
+      DB_RUN_MIGRATIONS: 'false'
+      # Force polling so tsc watch sees changes across the bind mount.
+      TSC_WATCHFILE: DynamicPriorityPolling
+      TSC_WATCHDIRECTORY: DynamicPriorityPolling
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build:
+      target: dev
+    environment:
+      VITE_API_BASE_URL: http://localhost:3000
+      VITE_USE_POLLING: 'true'
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - '5173:5173'

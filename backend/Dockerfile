@@ -27,3 +27,14 @@ RUN chmod +x ./docker-entrypoint.sh
 
 EXPOSE 3000
 ENTRYPOINT ["./docker-entrypoint.sh"]
+
+# ----- Dev stage (hot reload via Nest watch) -----
+FROM node:22-alpine AS dev
+RUN corepack enable
+WORKDIR /app
+ENV NODE_ENV=development
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY . .
+EXPOSE 3000
+CMD ["pnpm", "start:dev"]

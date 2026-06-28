@@ -6,21 +6,24 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Brackets, Repository } from 'typeorm';
 import { currencySymbolFor } from './currency.util';
-import { CreateInvoiceDto } from './dto/create-invoice.dto';
 import {
-  InvoiceSortField,
+  CreateInvoiceDto,
+  InvoiceDto,
+  PaginatedInvoicesDto,
   QueryInvoicesDto,
-  SortOrdering,
-} from './dto/query-invoices.dto';
-import { InvoiceDto, PaginatedInvoicesDto } from './dto/invoice-response.dto';
+} from './dto';
 import { Invoice } from '../../database/entities/invoice.entity';
 import { InvoiceItem } from '../../database/entities/invoice-item.entity';
-import { InvoiceStatus, InvoiceStatusView } from './enums/invoice-status.enum';
+import {
+  InvoiceSortField,
+  InvoiceStatus,
+  InvoiceStatusView,
+  SortOrdering,
+} from './interfaces';
 import {
   calculateInvoiceTotals,
   toDateOnly,
 } from './invoice.calculations';
-import { serializeInvoice } from './invoice.serializer';
 
 const SORT_COLUMN: Record<InvoiceSortField, string> = {
   [InvoiceSortField.invoiceDate]: 'invoice.invoiceDate',
@@ -84,7 +87,7 @@ export class InvoicesService {
     const [invoices, total] = await qb.getManyAndCount();
 
     return {
-      data: invoices.map((invoice) => serializeInvoice(invoice, now)),
+      data: invoices.map((invoice) => InvoiceDto.fromEntity(invoice, now)),
       paging: { page, pageSize, total },
     };
   }
@@ -96,7 +99,7 @@ export class InvoicesService {
     if (!invoice) {
       throw new NotFoundException('Invoice not found');
     }
-    return serializeInvoice(invoice);
+    return InvoiceDto.fromEntity(invoice);
   }
 
   async create(dto: CreateInvoiceDto, userId: string): Promise<InvoiceDto> {
@@ -150,7 +153,7 @@ export class InvoicesService {
 
     try {
       const saved = await this.invoicesRepository.save(invoice);
-      return serializeInvoice(saved);
+      return InvoiceDto.fromEntity(saved);
     } catch (err) {
       // Postgres unique_violation
       if ((err as { code?: string }).code === '23505') {
